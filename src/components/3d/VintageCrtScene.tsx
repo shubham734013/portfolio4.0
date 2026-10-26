@@ -121,22 +121,23 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
     monitorGroup.position.set(0, 0.05, 0);
 
     // Materials
-    const vintageBeigeMat = new THREE.MeshStandardMaterial({
-      color: 0x222622, // Refined dark charcoal/stealth CRT casing
-      roughness: 0.55,
-      metalness: 0.12,
+    // Vintage Classic Computer Cream Materials (Original Retro Hardware)
+    const vintageCreamMat = new THREE.MeshStandardMaterial({
+      color: 0xded5c0, // Classic warm vintage retro cream / IBM beige
+      roughness: 0.56,
+      metalness: 0.04,
     });
 
     const frontBezelMat = new THREE.MeshStandardMaterial({
-      color: 0x181c18,
-      roughness: 0.65,
-      metalness: 0.08,
+      color: 0xe6decc, // Warm ivory-cream for the front bezel face
+      roughness: 0.52,
+      metalness: 0.04,
     });
 
     const accentMat = new THREE.MeshStandardMaterial({
-      color: 0x303830,
-      roughness: 0.45,
-      metalness: 0.25,
+      color: 0xbdb39d, // Warm putty accent for chassis joints, neck, and knobs
+      roughness: 0.62,
+      metalness: 0.08,
     });
 
     // Part A: Main Front Bezel (Chunky CRT frame)
@@ -154,7 +155,7 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
     // CRT monitors are deep and taper towards the rear neck!
     const rearHousingGeom = new THREE.CylinderGeometry(0.55, 0.98, 1.15, 8, 1);
     rearHousingGeom.rotateX(Math.PI / 2);
-    const rearHousingMesh = new THREE.Mesh(rearHousingGeom, vintageBeigeMat);
+    const rearHousingMesh = new THREE.Mesh(rearHousingGeom, vintageCreamMat);
     rearHousingMesh.position.set(0, 0.2, -0.68);
     rearHousingMesh.scale.set(1.05, 0.85, 1.0);
     rearHousingMesh.castShadow = !isSoftware;
@@ -214,10 +215,10 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
     monitorGroup.add(glassMesh);
 
     // Part F: Bottom Control Console & Physical Buttons
-    // Power button with glowing LED
+    // Power button with glowing LED (Classic retro terracotta button)
     const powerButtonGeom = new THREE.CylinderGeometry(0.045, 0.045, 0.04, 16);
     powerButtonGeom.rotateX(Math.PI / 2);
-    const powerButtonMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.5 });
+    const powerButtonMat = new THREE.MeshStandardMaterial({ color: 0xb65b3d, roughness: 0.45 });
     const powerButton = new THREE.Mesh(powerButtonGeom, powerButtonMat);
     powerButton.position.set(0.78, -0.44, 0.18);
     monitorGroup.add(powerButton);
@@ -238,9 +239,9 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
       monitorGroup.add(knobMesh);
     });
 
-    // Brand badge plate in the center bottom of the bezel
+    // Brand badge plate in the center bottom of the bezel (Vintage brass/sand badge)
     const badgeGeom = new THREE.BoxGeometry(0.24, 0.045, 0.015);
-    const badgeMat = new THREE.MeshStandardMaterial({ color: 0x445044, metalness: 0.6, roughness: 0.3 });
+    const badgeMat = new THREE.MeshStandardMaterial({ color: 0x9e9581, metalness: 0.45, roughness: 0.3 });
     const badge = new THREE.Mesh(badgeGeom, badgeMat);
     badge.position.set(0, -0.44, 0.185);
     monitorGroup.add(badge);
@@ -252,7 +253,7 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
     monitorGroup.add(neckMesh);
 
     const baseGeom = new THREE.CylinderGeometry(0.68, 0.74, 0.09, 24);
-    const baseMesh = new THREE.Mesh(baseGeom, vintageBeigeMat);
+    const baseMesh = new THREE.Mesh(baseGeom, vintageCreamMat);
     baseMesh.position.set(0, -0.80, -0.12);
     baseMesh.castShadow = !isSoftware;
     baseMesh.receiveShadow = !isSoftware;
@@ -264,19 +265,19 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
     keyboardGroup.rotation.x = -0.06;
 
     const kbBodyGeom = new THREE.BoxGeometry(1.6, 0.07, 0.54);
-    const kbBody = new THREE.Mesh(kbBodyGeom, vintageBeigeMat);
+    const kbBody = new THREE.Mesh(kbBodyGeom, vintageCreamMat);
     keyboardGroup.add(kbBody);
 
-    // Stepped Keycaps Area
+    // Stepped Keycaps Area (Vintage Dual-tone Keys)
     const keycapsGeom = new THREE.BoxGeometry(1.48, 0.04, 0.44);
-    const keycapsMat = new THREE.MeshStandardMaterial({ color: 0x1a201a, roughness: 0.7 });
+    const keycapsMat = new THREE.MeshStandardMaterial({ color: 0xe8e1d2, roughness: 0.55 });
     const keycaps = new THREE.Mesh(keycapsGeom, keycapsMat);
     keycaps.position.set(0, 0.045, 0);
     keyboardGroup.add(keycaps);
 
     // Spacebar highlight
     const spacebarGeom = new THREE.BoxGeometry(0.48, 0.045, 0.07);
-    const spacebarMat = new THREE.MeshStandardMaterial({ color: 0x2e3b2e, roughness: 0.5 });
+    const spacebarMat = new THREE.MeshStandardMaterial({ color: 0xd0c6b4, roughness: 0.6 });
     const spacebar = new THREE.Mesh(spacebarGeom, spacebarMat);
     spacebar.position.set(0, 0.05, 0.14);
     keyboardGroup.add(spacebar);
@@ -285,7 +286,7 @@ export const VintageCrtScene: React.FC<VintageCrtSceneProps> = ({ onCodePresetCh
 
     // Part I: Retro Mouse
     const mouseGeom = new THREE.BoxGeometry(0.18, 0.07, 0.28);
-    const mouseMesh = new THREE.Mesh(mouseGeom, vintageBeigeMat);
+    const mouseMesh = new THREE.Mesh(mouseGeom, vintageCreamMat);
     mouseMesh.position.set(1.05, -0.82, 0.68);
     mouseMesh.rotation.y = -0.15;
     monitorGroup.add(mouseMesh);

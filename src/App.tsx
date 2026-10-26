@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { AnimatePresence } from 'motion/react';
 import { Navigation } from './components/sections/Navigation';
 import { HeroWorkstation } from './components/developer/HeroWorkstation';
 import { ProjectsSection } from './components/sections/ProjectsSection';
@@ -11,23 +12,60 @@ import { ExperienceSection } from './components/sections/ExperienceSection';
 import { CertificationsSection } from './components/sections/CertificationsSection';
 import { ContactSection } from './components/sections/ContactSection';
 import { Footer } from './components/sections/Footer';
-import { Terminal, Code, Sparkles, Layers } from 'lucide-react';
+import { ScrollProgress } from './components/common/ScrollProgress';
+import { DevStatusTicker } from './components/common/DevStatusTicker';
+import { CrtBootLoader } from './components/common/CrtBootLoader';
+import { KeyboardShortcutsModal } from './components/common/KeyboardShortcutsModal';
+import { useLenis } from './hooks/useLenis';
 
 export default function App() {
+  useLenis();
+  const [isBooting, setIsBooting] = useState<boolean>(true);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState<boolean>(false);
   const [initialTerminalCmd, setInitialTerminalCmd] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    // Check if ?autostart=1 or if user previously completed boot in current session
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('autostart') === '1' || sessionStorage.getItem('crt_booted') === 'true') {
+      setIsBooting(false);
+    }
+  }, []);
+
+  const handleBootComplete = () => {
+    setIsBooting(false);
+    sessionStorage.setItem('crt_booted', 'true');
+  };
+
+  const handleNavigateToSection = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleOpenTerminalWithCmd = (cmd?: string) => {
     if (cmd) setInitialTerminalCmd(cmd);
-    const terminalEl = document.getElementById('terminal');
-    if (terminalEl) {
-      terminalEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    handleNavigateToSection('terminal');
   };
 
   return (
     <div className="min-h-screen bg-[#121512] text-[#F4F1EA] selection:bg-[#78F28B] selection:text-[#101510] flex flex-col">
+      {/* Creative 3D CRT Boot Sequence Loading Page */}
+      <AnimatePresence>
+        {isBooting && <CrtBootLoader onComplete={handleBootComplete} />}
+      </AnimatePresence>
+
+      {/* Sleek Hairline Scroll Progress Bar */}
+      <ScrollProgress />
+
       {/* Navigation Header */}
       <Navigation onOpenTerminal={() => handleOpenTerminalWithCmd('help')} />
+
+      {/* Live Developer Telemetry Ticker */}
+      <div className="pt-16 sm:pt-20">
+        <DevStatusTicker onOpenShortcuts={() => setIsShortcutsOpen(true)} />
+      </div>
 
       <main className="flex-grow">
         {/* Hero Section: The Developer Workstation with 3D CRT Monitor */}
@@ -96,6 +134,13 @@ export default function App() {
         {/* Contact Form & Professional Channels */}
         <ContactSection />
       </main>
+
+      {/* Keyboard Shortcuts Overlay Modal */}
+      <KeyboardShortcutsModal
+        isOpen={isShortcutsOpen}
+        onClose={() => setIsShortcutsOpen(false)}
+        onNavigate={handleNavigateToSection}
+      />
 
       {/* Footer */}
       <Footer />

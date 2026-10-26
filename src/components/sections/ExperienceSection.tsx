@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { TIMELINE_ENTRIES } from '../../data/timeline';
 import { GitCommit, GitBranch, Briefcase, Award, GraduationCap, Calendar } from 'lucide-react';
 
@@ -6,24 +7,30 @@ export const ExperienceSection: React.FC = () => {
   return (
     <section id="journey" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-[#233123] pb-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-[#233123] pb-6"
+      >
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-[#78F28B] mb-2 uppercase tracking-wider">
             <span className="w-2 h-2 rounded-full bg-[#78F28B]" />
-            Engineering Log & Milestones
+            Timeline & Background
           </div>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[#F4F1EA]">
-            Education, Internship & Hackathon
+            Education, Internship & Milestones
           </h2>
         </div>
         <p className="text-xs sm:text-sm text-[#8E928C] max-w-md font-mono">
-          Chronological record of verified academic foundation, professional virtual internship, and hackathon participation.
+          Verified academic track record, enterprise virtual internship, and hackathon participation.
         </p>
-      </div>
+      </motion.div>
 
       {/* Git-Inspired Timeline visual */}
       <div className="relative pl-6 sm:pl-8 border-l-2 border-[#243524] space-y-12">
-        {TIMELINE_ENTRIES.map((entry) => {
+        {TIMELINE_ENTRIES.map((entry, idx) => {
           let Icon = GitCommit;
           if (entry.type === 'education') Icon = GraduationCap;
           else if (entry.type === 'internship') Icon = Briefcase;
@@ -31,7 +38,14 @@ export const ExperienceSection: React.FC = () => {
           else if (entry.type === 'milestone') Icon = GitBranch;
 
           return (
-            <div key={entry.id} className="relative group">
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: idx * 0.08 }}
+              className="relative group"
+            >
               {/* Timeline Node Dot */}
               <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-6 h-6 rounded-full bg-[#111611] border-2 border-[#78F28B] flex items-center justify-center text-[#78F28B] group-hover:bg-[#78F28B] group-hover:text-[#101510] transition-colors shadow-sm">
                 <Icon className="w-3 h-3" />
@@ -92,7 +106,7 @@ export const ExperienceSection: React.FC = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
