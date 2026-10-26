@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #121512;
+    --bg-charcoal: #1c211c;
+    --surface-dark: #171b17;
+    --surface-border: #283328;
+    --text-primary: #F4F1EA;
+    --text-muted: #8E928C;
+    --terminal-green: #78F28B;
+    --terminal-bg: #0c100c;
+    --accent-terracotta: #B65B3D;
+    --accent-amber: #E5A84B;
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    selection-background-color: #78F28B;
+    selection-color: #101510;
+  }
+
+  ::selection {
+    background-color: #78F28B;
+    color: #101510;
+  }
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #121512;
+}
+::-webkit-scrollbar-thumb {
+  background: #283328;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4c3b;
+}
+
+/* CRT Screen Scanlines and Vignette overlay */
+.crt-screen-overlay {
+  background: linear-gradient(
+    rgba(18, 24, 18, 0) 50%,
+    rgba(0, 0, 0, 0.35) 50%
+  ),
+  radial-gradient(circle at center, transparent 65%, rgba(0, 0, 0, 0.75) 100%);
+  background-size: 100% 4px, 100% 100%;
+  pointer-events: none;
+}
+
+/* Subtle glow utility */
+.glow-terminal {
+  text-shadow: 0 0 10px rgba(120, 242, 139, 0.45);
+}
+
+.glow-border {
+  box-shadow: 0 0 25px -5px rgba(120, 242, 139, 0.15);
+}
+
+/* Monospace line numbers */
+.code-line-gutter {
+  user-select: none;
+  color: #435243;
+}
